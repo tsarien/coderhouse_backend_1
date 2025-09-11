@@ -1,0 +1,24 @@
+[
+  {
+    "id": "cbc8f671-d991-4903-a3e1-c69187d1ad4f",
+    "title": "Auriculares Bluetooth",
+    "description": "Auriculares inalámbricos con micrófono integrado y cancelación de ruido.",
+    "code": "AUR-001",
+    "price": 159900,
+    "status": true,
+    "stock": 25,
+    "category": "Electrónica",
+    "thumbnail": []
+  },
+  {
+    "id": "66506b1c-a0af-494e-b9c3-33d4ac4efa11",
+    "title": "Camiseta Deportiva",
+    "description": "Camiseta de secado rápido y material transpirable, ideal para entrenamientos.",
+    "code": "CAM-002",
+    "price": 49900,
+    "status": true,
+    "stock": 40,
+    "category": "Ropa",
+    "thumbnail": []
+  }
+]
