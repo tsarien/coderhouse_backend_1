@@ -92,8 +92,16 @@ app.get("/api/carts/:cid", async (req, res) => {
 
 app.post("/api/carts/:cid/product/:pid", async (req, res) => {
   try {
-    const cid = req.params.cid;
-  } catch (error) {}
+    const { cid, pid } = req.params;
+    const carts = await cartManager.addProductByCartId(cid, pid);
+
+    res.status(200).json({
+      message: "Producto agregado al carrito con éxito",
+      carts,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 });
 
 app.listen(8080, () => {

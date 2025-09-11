@@ -1,6 +1,5 @@
 import crypto from "crypto";
 import fs from "fs/promises";
-import ProductManager from "./productManager";
 
 class CartManager {
   constructor(pathFile) {
@@ -49,7 +48,27 @@ class CartManager {
       const fileData = await fs.readFile(this.pathFile, "utf-8");
       const carts = JSON.parse(fileData);
 
-      const filteredCart = carts.filter((cart) => cart.id !== cartId);
+      const cartIndex = carts.findIndex((cart) => cart.id === cartId);
+      if (cartIndex === -1) throw new Error("Carrito no encontrado");
+
+      const cart = carts[cartIndex];
+
+      const productIndex = cart.products.findIndex((p) => p.id === productId);
+
+      if (productIndex !== -1) {
+        cart.products[productIndex].quantity += 1;
+      } else {
+        cart.products.push({ id: productId, quantity: 1 });
+      }
+
+      carts[cartIndex] = cart;
+      await fs.writeFile(
+        this.pathFile,
+        JSON.stringify(carts, null, 2),
+        "utf-8"
+      );
+
+      return cart;
     } catch (error) {}
   }
 }
