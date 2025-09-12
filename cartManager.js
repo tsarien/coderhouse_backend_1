@@ -10,14 +10,14 @@ class CartManager {
     return crypto.randomUUID();
   }
 
-  async addCart(newCart) {
+  async addCart() {
     try {
       const fileData = await fs.readFile(this.pathFile, "utf-8");
       const carts = JSON.parse(fileData);
 
       const newId = this.generateNewId();
 
-      const cart = { id: newId, ...newCart };
+      const cart = { id: newId, products: [] };
       carts.push(cart);
 
       await fs.writeFile(
@@ -37,10 +37,12 @@ class CartManager {
       const fileData = await fs.readFile(this.pathFile, "utf-8");
       const carts = JSON.parse(fileData);
 
-      const filteredCart = carts.filter((cart) => cart.id !== cartId);
-
-      return filteredCart;
-    } catch (error) {}
+      const cart = carts.find((cart) => cart.id === cartId);
+      if (!cart) throw new Error("Carrito no encontrado");
+      return cart;
+    } catch (error) {
+      throw new Error("Error al buscar el carrito con el ID: " + error.message);
+    }
   }
 
   async addProductByCartId(cartId, productId) {
@@ -69,7 +71,11 @@ class CartManager {
       );
 
       return cart;
-    } catch (error) {}
+    } catch (error) {
+      throw new Error(
+        "Error al agregar el producto al carrito: " + error.message
+      );
+    }
   }
 }
 

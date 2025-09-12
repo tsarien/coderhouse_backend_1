@@ -71,8 +71,7 @@ app.get("/api/products/:pid", async (req, res) => {
 //este metodo crea carritos vacios
 app.post("/api/carts", async (req, res) => {
   try {
-    const newCart = req.body;
-    const carts = await cartManager.addCart(newCart);
+    const carts = await cartManager.addCart({ products: [] });
     res.status(201).json({ message: "Carrito creado", carts });
   } catch (error) {
     res.status(500).json({ message: error.message });

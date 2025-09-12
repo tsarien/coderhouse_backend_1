@@ -8,7 +8,7 @@
     "status": true,
     "stock": 25,
     "category": "Electrónica",
-    "thumbnail": []
+    "thumbnails": []
   },
   {
     "id": "66506b1c-a0af-494e-b9c3-33d4ac4efa11",
@@ -19,6 +19,6 @@
     "status": true,
     "stock": 40,
     "category": "Ropa",
-    "thumbnail": []
+    "thumbnails": []
   }
 ]

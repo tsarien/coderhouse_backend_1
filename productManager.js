@@ -42,7 +42,9 @@ class ProductManager {
       const products = JSON.parse(fileData);
 
       return products;
-    } catch (error) {}
+    } catch (error) {
+      throw new Error("Error al recibir los productos: " + error.message);
+    }
   }
 
   async setProductById(productId, updates) {
@@ -66,7 +68,9 @@ class ProductManager {
       );
 
       return products;
-    } catch (error) {}
+    } catch (error) {
+      throw new Error("Error al actualizar el producto: " + error.message);
+    }
   }
 
   async deleteProductById(productId) {
@@ -87,7 +91,9 @@ class ProductManager {
       );
 
       return filteredProduct;
-    } catch (error) {}
+    } catch (error) {
+      throw new Error("Error al eliminar el producto: " + error.message);
+    }
   }
 
   async getProductById(productId) {
@@ -96,12 +102,12 @@ class ProductManager {
       const fileData = await fs.readFile(this.pathFile, "utf-8");
       const products = JSON.parse(fileData);
 
-      const filteredProduct = products.filter(
-        (product) => product.id !== productId
-      );
-
-      return filteredProduct;
-    } catch (error) {}
+      const product = products.find((product) => product.id === productId);
+      if (!product) throw new Error("Producto no encontrado");
+      return product;
+    } catch (error) {
+      throw new Error("Error al recibir el producto: " + error.message);
+    }
   }
 }
 
