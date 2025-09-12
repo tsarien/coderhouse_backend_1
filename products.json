@@ -20,5 +20,16 @@
     "stock": 40,
     "category": "Ropa",
     "thumbnails": []
+  },
+  {
+    "id": "6b049eb2-6621-4b52-8f96-c94131976cc0",
+    "title": "Silla Ergonómica",
+    "description": "Silla de oficina ajustable con soporte lumbar y ruedas silenciosas.",
+    "code": "SIL-003",
+    "price": 389900,
+    "status": true,
+    "stock": 10,
+    "category": "Muebles",
+    "thumbnails": []
   }
 ]
