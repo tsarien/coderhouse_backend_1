@@ -16,7 +16,6 @@
 
 </div>
 
-  <!-- Contenedor de productos -->
   <div id="productList">
     {{#each products}}
       <div class="product">
@@ -37,28 +36,28 @@
   const productList = document.getElementById("productList");
   const form = document.getElementById("productForm");
 
-  // Renderizar productos
   const renderProducts = (products) => {
     productList.innerHTML = products
       .map(
         (p) => `
-        <div style="border:1px solid #ccc; margin:10px; padding:10px;">
-          <h3>${p.title}</h3>
-          <p>${p.description}</p>
-          <p>Precio: $${p.price}</p>
-          <p>Categoría: ${p.category}</p>
-          <button onclick="deleteProduct('${p.id}')">Eliminar</button>
+        <div class="product-card">
+          <img src="${p.thumbnails}" alt="${p.title}" class="product-image">
+          <div class="product-info">
+            <h3>${p.title}</h3>
+            <p>${p.description}</p>
+            <p class="price">$${p.price}</p>
+            <p class="category">${p.category}</p>
+            <button onclick="deleteProduct('${p.id}')" class="delete-btn">Eliminar</button>
+          </div>
         </div>`
       )
       .join("");
   };
 
-  // Escuchar actualización de productos
   socket.on("updateProducts", (products) => {
     renderProducts(products);
   });
 
-  // Enviar nuevo producto
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     const formData = new FormData(form);
@@ -69,7 +68,6 @@
     form.reset();
   });
 
-  // Eliminar producto
   async function deleteProduct(id) {
     await fetch(`/api/products/${id}`, {
       method: "DELETE",

@@ -8,7 +8,7 @@
     "status": true,
     "stock": 25,
     "category": "Electrónica",
-    "thumbnails": "/public/img/auriculares.jpg"
+    "thumbnails": "/img/auriculares.jpg"
   },
   {
     "id": "66506b1c-a0af-494e-b9c3-33d4ac4efa11",
@@ -19,7 +19,7 @@
     "status": true,
     "stock": 40,
     "category": "Ropa",
-    "thumbnails": "/public/img/auriculares.jpg"
+    "thumbnails": "/img/camiseta.jpg"
   },
   {
     "id": "6b049eb2-6621-4b52-8f96-c94131976cc0",
@@ -30,6 +30,6 @@
     "status": true,
     "stock": 10,
     "category": "Muebles",
-    "thumbnails": "/public/img/silla.jpg"
+    "thumbnails": "/img/silla.jpg"
   }
 ]

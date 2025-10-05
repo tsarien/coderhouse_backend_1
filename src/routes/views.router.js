@@ -1,4 +1,3 @@
-// src/routes/views.router.js
 import express from "express";
 import ProductManager from "../managers/productManager.js";
 

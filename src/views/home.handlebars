@@ -1,14 +1,23 @@
 <div>
   <h1>Home</h1>
-  <div>
+  <div class="products-container">
     {{#each products}}
-      <div>
-        <h2>{{this.title}}</h2>
-        <p>{{this.description}}</p>
-        <p>Precio: ${{this.price}}</p>
-        <p>Stock: {{this.stock}}</p>
-        <p>Categoría: {{this.category}}</p>
+
+      <div class="product-card">
+        <img
+          src="{{this.thumbnails}}"
+          alt="{{this.title}}"
+          class="product-image"
+        />
+        <div class="product-info">
+          <h2>{{this.title}}</h2>
+          <p>{{this.description}}</p>
+          <p class="price">${{this.price}}</p>
+          <p class="stock">Stock: {{this.stock}}</p>
+          <p class="category">{{this.category}}</p>
+        </div>
       </div>
+
     {{/each}}
   </div>
 </div>
