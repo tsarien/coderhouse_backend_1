@@ -12,18 +12,28 @@ const server = http.createServer(app);
 const io = new Server(server);
 const productManager = new ProductManager("./src/data/products.json");
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static("public"));
-
+// Handlebars
 app.engine("handlebars", engine());
 app.set("view engine", "handlebars");
 app.set("views", "./src/views");
 
+// Puerto de nuestro servidor
+const PORT = 8080;
+
+// Habilitamos para recibir json
+app.use(express.json());
+
+// Habilitamos la carpeta public
+app.use(express.static("public"));
+
+app.use(express.urlencoded({ extended: true }));
+
+// Endpoints
 app.use("/", viewsRouter);
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
 
+// Websockets
 io.on("connection", async (socket) => {
   console.log("Nuevo cliente conectado");
 
@@ -33,6 +43,7 @@ io.on("connection", async (socket) => {
 
 app.set("io", io);
 
-server.listen(8080, () => {
-  console.log("Servidor iniciado en puerto 8080");
-});
+// Iniciamos el servidor
+server.listen(PORT, () =>
+  console.log(`Servidor iniciado en: http://localhost:${PORT}`)
+);

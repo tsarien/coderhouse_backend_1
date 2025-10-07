@@ -18,59 +18,24 @@
 
   <div id="productList">
     {{#each products}}
-      <div class="product">
-        <h2>{{this.title}}</h2>
-        <p>{{this.description}}</p>
-        <p>Precio: ${{this.price}}</p>
-        <p>Stock: {{this.stock}}</p>
-        <p>Categoría: {{this.category}}</p>
-        <button onclick="deleteProduct('{{this.id}}')">Eliminar</button>
+      <div class="product-card">
+        <img
+          src="{{this.thumbnails}}"
+          alt="{{this.title}}"
+          class="product-image"
+        />
+        <div class="product-info">
+          <h2>{{this.title}}</h2>
+          <p>{{this.description}}</p>
+          <p class="price">${{this.price}}</p>
+          <p>Stock: {{this.stock}}</p>
+          <p class="category">{{this.category}}</p>
+          <button onclick="deleteProduct('{{this.id}}')" class="delete-btn">Eliminar</button>
+        </div>
       </div>
     {{/each}}
   </div>
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
-<script>
-  const socket = io();
-  const productList = document.getElementById("productList");
-  const form = document.getElementById("productForm");
-
-  const renderProducts = (products) => {
-    productList.innerHTML = products
-      .map(
-        (p) => `
-        <div class="product-card">
-          <img src="${p.thumbnails}" alt="${p.title}" class="product-image">
-          <div class="product-info">
-            <h3>${p.title}</h3>
-            <p>${p.description}</p>
-            <p class="price">$${p.price}</p>
-            <p class="category">${p.category}</p>
-            <button onclick="deleteProduct('${p.id}')" class="delete-btn">Eliminar</button>
-          </div>
-        </div>`
-      )
-      .join("");
-  };
-
-  socket.on("updateProducts", (products) => {
-    renderProducts(products);
-  });
-
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const formData = new FormData(form);
-    await fetch("/api/products", {
-      method: "POST",
-      body: formData,
-    });
-    form.reset();
-  });
-
-  async function deleteProduct(id) {
-    await fetch(`/api/products/${id}`, {
-      method: "DELETE",
-    });
-  }
-</script>
+<script src="/js/index.js"></script>
