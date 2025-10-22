@@ -8,6 +8,8 @@
 ![Node.js](https://img.shields.io/badge/Node%20js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
 ![Express](https://img.shields.io/badge/Express%20js-000000?style=for-the-badge&logo=express&logoColor=white)
 ![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=Postman&logoColor=white)
+![Handlebars JS](https://img.shields.io/badge/Handlebars%20js-f0772b?style=for-the-badge&logo=handlebarsdotjs&logoColor=black)
+![Socket.io](https://img.shields.io/badge/Socket.io-010101?&style=for-the-badge&logo=Socket.io&logoColor=white)
 
 ---
 
@@ -59,5 +61,44 @@ Si un producto ya existente intenta agregarse, se debe incrementar el campo `qua
 - La persistencia se implementará utilizando el sistema de archivos, donde los archivos products.json y carts.json respaldarán la información.
 - Se debe utilizar el ProductManager desarrollado en el desafío anterior y crear un CartManager para gestionar el almacenamiento de estos archivos JSON.
 - Nota: No es necesario realizar ninguna implementación visual, todo el flujo se puede realizar por Postman o por el cliente de tu preferencia.
+
+---
+
+## Entrega #2 (7-10-2025)
+
+### Websockets
+
+## Consigna
+
+Configurar nuestro proyecto para que trabaje con Handlebars y websocket.
+
+### Aspectos a incluir
+
+- Configurar el servidor para integrar el motor de plantillas Handlebars e instalar un servidor de socket.io al mismo.
+
+- Crear una vista `home.handlebars` la cual contenga una lista de todos los productos agregados hasta el momento.
+
+- Además, crear una vista `realTimeProducts.handlebars`, la cual vivirá en el endpoint `/realtimeproducts` en nuestro views router, ésta contendrá la misma lista de productos, sin embargo, ésta trabajará con websockets.
+
+- Al trabajar con websockets, cada vez que creemos un producto nuevo, o bien cada vez que eliminemos un producto, se debe actualizar automáticamente en dicha vista la lista.
+
+### Sugerencias
+
+- Ya que la conexión entre una consulta HTTP y websocket no está contemplada dentro de la clase. Se recomienda que, para la creación y eliminación de un producto, Se cree un formulario simple en la vista realTimeProducts.handlebars. Para que el contenido se envíe desde websockets y no HTTP. Sin embargo, esta no es la mejor solución, leer el siguiente punto.
+
+- Si se desea hacer la conexión de socket emits con HTTP, deberás buscar la forma de utilizar el servidor io de Sockets dentro de la petición POST. ¿Cómo utilizarás un emit dentro del POST?
+
+---
+
+<table>
+  <tr>
+    <th><code>home.handlebars</code></th>
+    <th><code>realTimeProducts.handlebars</code></th>
+  </tr>
+  <tr>
+    <td><img src="./public/img/readme/home.png" alt="home" width="400"></td>
+    <td><img src="./public/img/readme/realtimeproducts.png" alt="realTimeProducts" width="400"></td>
+  </tr>
+</table>
 
 ---

@@ -9,7 +9,7 @@ viewRouter.get("/", async (req, res) => {
     const products = await productManager.getProducts();
     res.render("home", { products });
   } catch (error) {
-    res.statusMessage(500).send({ message: error.message });
+    res.status(500).send({ message: error.message });
   }
 });
 
@@ -18,7 +18,7 @@ viewRouter.get("/realtimeproducts", async (req, res) => {
     const products = await productManager.getProducts();
     res.render("realtimeproducts", { products });
   } catch (error) {
-    res.statusMessage(500).send({ message: error.message });
+    res.status(500).send({ message: error.message });
   }
 });
 
