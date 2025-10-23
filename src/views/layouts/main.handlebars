@@ -1,4 +1,4 @@
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -6,6 +6,30 @@
     <title>Product & Cart Manager</title>
   </head>
   <body>
-    {{{body}}}
+    <!-- Barra de navegación -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <a href="/" class="nav-logo">
+          E-Commerce - Coderhouse
+        </a>
+
+        <ul class="nav-menu">
+          <li><a href="/" class="nav-link">Productos</a></li>
+          <li>
+            <a href="#" class="nav-link cart-link" id="cartLink">
+              🛒 Carrito
+              <span class="cart-badge" id="cart-count">0</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Contenido principal -->
+    <main>
+      {{{body}}}
+    </main>
+
+    <script src="/js/cart.js"></script>
   </body>
 </html>

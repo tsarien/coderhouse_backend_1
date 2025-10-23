@@ -1,49 +1,47 @@
 import express from "express";
-import http from "http";
-import { engine } from "express-handlebars";
-import { Server } from "socket.io";
-import viewsRouter from "./routes/views.router.js";
+import path from "path";
 import productsRouter from "./routes/products.router.js";
-import cartsRouter from "./routes/carts.router.js";
-import ProductManager from "./managers/productManager.js";
+import connectMongoDB from "./config/db.js";
+import dotenv from "dotenv";
+import cartRouter from "./routes/carts.router.js";
+import { engine } from "express-handlebars";
+import viewsRouter from "./routes/views.router.js";
+import __dirname from "../dirname.js";
+
+// Inicializamos las variables de entorno
+dotenv.config();
 
 const app = express();
-const server = http.createServer(app);
-const io = new Server(server);
-const productManager = new ProductManager("./src/data/products.json");
+const PORT = process.env.PORT;
+
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Archivos estáticos
+app.use(express.static(path.join(__dirname, "public")));
 
 // Handlebars
 app.engine("handlebars", engine());
 app.set("view engine", "handlebars");
-app.set("views", "./src/views");
+app.set("views", path.join(__dirname, "src/views"));
 
-// Puerto de nuestro servidor
-const PORT = 8080;
-
-// Habilitamos para recibir json
-app.use(express.json());
-
-// Habilitamos la carpeta public
-app.use(express.static("public"));
-
-app.use(express.urlencoded({ extended: true }));
+// Conexión a MongoDB
+connectMongoDB();
 
 // Endpoints
-app.use("/", viewsRouter);
 app.use("/api/products", productsRouter);
-app.use("/api/carts", cartsRouter);
+app.use("/api/carts", cartRouter);
+app.use("/", viewsRouter);
 
-// Websockets
-io.on("connection", async (socket) => {
-  console.log("Nuevo cliente conectado");
-
-  const products = await productManager.getProducts();
-  socket.emit("updateProducts", products);
+// Manejo de errores 404
+app.use((req, res) => {
+  res.status(404).render("error", {
+    message: "Página no encontrada",
+    error: `La ruta ${req.url} no existe`,
+  });
 });
 
-app.set("io", io);
-
-// Iniciamos el servidor
-server.listen(PORT, () =>
-  console.log(`Servidor iniciado en: http://localhost:${PORT}`)
-);
+app.listen(PORT, () => {
+  console.log(`Servidor iniciado correctamente en http://localhost:${PORT}`);
+});

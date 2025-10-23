@@ -1,23 +1,130 @@
-<div>
-  <h1>Home</h1>
-  <div class="products-container">
-    {{#each products}}
-
-      <div class="product-card">
-        <img
-          src="{{this.thumbnails}}"
-          alt="{{this.title}}"
-          class="product-image"
-        />
-        <div class="product-info">
-          <h2>{{this.title}}</h2>
-          <p>{{this.description}}</p>
-          <p class="price">${{this.price}}</p>
-          <p class="stock">Stock: {{this.stock}}</p>
-          <p class="category">{{this.category}}</p>
+<div class="container">
+  <header class="page-header">
+    <h1>Home</h1>
+    
+    <div class="filters-container">
+      <form id="filtersForm" method="GET" action="/" class="filters-form">
+        <!-- Límite por página -->
+        <div class="filter-group">
+          <label for="limit">Productos por página:</label>
+          <select name="limit" id="limit">
+            {{#each limitOptions}}
+              <option value="{{this.value}}" {{#if this.selected}}selected{{/if}}>
+                {{this.value}}
+              </option>
+            {{/each}}
+          </select>
         </div>
+
+        <!-- Ordenamiento por precio -->
+        <div class="filter-group">
+          <label for="sort">Ordenar por precio:</label>
+          <select name="sort" id="sort">
+            {{#each sortOptions}}
+              <option value="{{this.value}}" {{#if this.selected}}selected{{/if}}>
+                {{this.label}}
+              </option>
+            {{/each}}
+          </select>
+        </div>
+
+        <!-- Filtro por categoría o disponibilidad -->
+        <div class="filter-group">
+          <label for="query">Filtrar:</label>
+          <input 
+            type="text" 
+            name="query" 
+            id="query" 
+            placeholder="ej: category:electronics o status:true"
+            value="{{query}}"
+          />
+          <button type="submit" class="btn-filter">Filtrar</button>
+        </div>
+
+        <input type="hidden" name="page" value="1" />
+      </form>
+
+      <a href="/" class="btn-clear">Limpiar filtros</a>
+    </div>
+  </header>
+
+  <!-- Lista de productos -->
+  <div class="products-container">
+    {{#if products.length}}
+      {{#each products}}
+        <div class="product-card">
+          <img
+            src="{{this.thumbnail}}"
+            alt="{{this.title}}"
+            class="product-image"
+            onerror="this.src='https://via.placeholder.com/300x200?text=Sin+imagen'"
+          />
+          <div class="product-info">
+            <h2>{{this.title}}</h2>
+            <p class="description">{{this.description}}</p>
+            <p class="price">${{this.price}}</p>
+            <p class="stock">Stock: {{this.stock}}</p>
+            <p class="category">Categoría: {{this.category}}</p>
+            <p class="status">
+              {{#if this.status}}
+                <span class="badge-available">Disponible</span>
+              {{else}}
+                <span class="badge-unavailable">No disponible</span>
+              {{/if}}
+            </p>
+            
+            <div class="product-actions">
+              <a href="/products/{{this._id}}" class="btn-detail">Ver detalle</a>
+              <button 
+                class="btn-add-cart" 
+                data-id="{{this._id}}"
+                {{#unless this.status}}disabled{{/unless}}
+              >
+                Agregar al carrito
+              </button>
+            </div>
+          </div>
+        </div>
+      {{/each}}
+    {{else}}
+      <div class="no-products">
+        <p>No se encontraron productos con los filtros aplicados.</p>
+        <a href="/" class="btn-clear">Ver todos los productos</a>
+      </div>
+    {{/if}}
+  </div>
+
+  {{#if products.length}}
+    <div class="pagination-container">
+      <div class="pagination-info">
+        <p>Página {{currentPage}} de {{totalPages}}</p>
       </div>
 
-    {{/each}}
-  </div>
+      <div class="pagination-controls">
+        {{#if hasPrevPage}}
+          <a href="{{prevLink}}" class="btn-page">← Anterior</a>
+        {{else}}
+          <span class="btn-page disabled">← Anterior</span>
+        {{/if}}
+
+        <div class="page-numbers">
+          {{#each pages}}
+            {{#if this.isCurrent}}
+              <span class="page-number active">{{this.number}}</span>
+            {{else}}
+              <a href="{{this.url}}" class="page-number">{{this.number}}</a>
+            {{/if}}
+          {{/each}}
+        </div>
+
+        {{#if hasNextPage}}
+          <a href="{{nextLink}}" class="btn-page">Siguiente →</a>
+        {{else}}
+          <span class="btn-page disabled">Siguiente →</span>
+        {{/if}}
+      </div>
+    </div>
+  {{/if}}
 </div>
+
+<script src="/js/product.js"></script>

@@ -1,0 +1,97 @@
+<div class="container">
+  <div class="breadcrumb">
+    <a href="/">← Volver al catálogo</a>
+  </div>
+
+  <div class="product-detail-container">
+    <div class="product-detail-image">
+      <img
+        src="{{product.thumbnail}}"
+        alt="{{product.title}}"
+      />
+    </div>
+
+    <div class="product-detail-info">
+      <h1>{{product.title}}</h1>
+      
+      <div class="product-meta">
+        <span class="product-code">Código: {{product.code}}</span>
+        <span class="product-category">
+          <strong>Categoría:</strong> {{product.category}}
+        </span>
+      </div>
+
+      <p class="product-description">{{product.description}}</p>
+
+      <div class="product-pricing">
+        <p class="product-price">${{product.price}}</p>
+        <p class="product-stock">
+          {{#if product.status}}
+            {{#if product.stock}}
+              <span class="badge-available">Stock disponible: {{product.stock}} unidades</span>
+            {{else}}
+              <span class="badge-unavailable">Sin stock</span>
+            {{/if}}
+          {{else}}
+            <span class="badge-unavailable">Producto no disponible</span>
+          {{/if}}
+        </p>
+      </div>
+
+      <div class="product-actions-detail">
+        <div class="quantity-selector">
+          <label for="quantity">Cantidad:</label>
+          <input 
+            type="number" 
+            id="quantity" 
+            name="quantity" 
+            value="1" 
+            min="1" 
+            max="{{product.stock}}"
+            {{#unless product.status}}disabled{{/unless}}
+          />
+        </div>
+
+        <button 
+          class="btn-add-cart-large" 
+          onclick="addToCart('{{product._id}}')"
+          {{#unless product.status}}disabled{{/unless}}
+          {{#unless product.stock}}disabled{{/unless}}
+        >
+          {{#if product.status}}
+            {{#if product.stock}}
+              Agregar al carrito
+            {{else}}
+              Sin stock
+            {{/if}}
+          {{else}}
+            No disponible
+          {{/if}}
+        </button>
+      </div>
+
+      <div class="product-additional-info">
+        <h3>Información adicional</h3>
+        <ul>
+          <li><strong>ID:</strong> {{product._id}}</li>
+          <li><strong>Código:</strong> {{product.code}}</li>
+          <li><strong>Categoría:</strong> {{product.category}}</li>
+          <li><strong>Precio:</strong> ${{product.price}}</li>
+          <li><strong>Stock:</strong> {{product.stock}} unidades</li>
+          <li><strong>Estado:</strong> 
+            {{#if product.status}}Disponible{{else}}No disponible{{/if}}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="back-to-catalog">
+    <a href="/" class="btn-secondary">← Volver al catálogo</a>
+    <a href="/carts/{{cartId}}" class="btn-view-cart" id="viewCartBtn" style="display: none;">
+      Ver mi carrito 🛒
+    </a>
+  </div>
+</div>
+
+<script src="/js/product.js"></script>
