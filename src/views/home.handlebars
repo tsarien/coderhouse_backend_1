@@ -4,7 +4,7 @@
     
     <div class="filters-container">
       <form id="filtersForm" method="GET" action="/" class="filters-form">
-        <!-- Límite por página -->
+      
         <div class="filter-group">
           <label for="limit">Productos por página:</label>
           <select name="limit" id="limit">
@@ -16,7 +16,6 @@
           </select>
         </div>
 
-        <!-- Ordenamiento por precio -->
         <div class="filter-group">
           <label for="sort">Ordenar por precio:</label>
           <select name="sort" id="sort">
@@ -28,14 +27,13 @@
           </select>
         </div>
 
-        <!-- Filtro por categoría o disponibilidad -->
         <div class="filter-group">
           <label for="query">Filtrar:</label>
           <input 
             type="text" 
             name="query" 
             id="query" 
-            placeholder="ej: category:electronics o status:true"
+            placeholder="Escribir exactamente el nombre de la categoría"
             value="{{query}}"
           />
           <button type="submit" class="btn-filter">Filtrar</button>
@@ -48,7 +46,6 @@
     </div>
   </header>
 
-  <!-- Lista de productos -->
   <div class="products-container">
     {{#if products.length}}
       {{#each products}}

@@ -9,7 +9,6 @@ const parseQueryFilter = (query) => {
   try {
     return JSON.parse(query);
   } catch {
-    // Permite querys como "category:Electrónica" o "status:true"
     if (query.includes(":")) {
       const [field, value] = query.split(":");
       if (field === "category") return { category: value };
@@ -20,7 +19,6 @@ const parseQueryFilter = (query) => {
 };
 
 const buildQueryString = (params) => {
-  // Filtrar solo parámetros con valores válidos
   const validParams = {};
   for (const [key, value] of Object.entries(params)) {
     if (value !== undefined && value !== null && value !== "") {
@@ -45,7 +43,6 @@ viewsRouter.get("/", async (req, res) => {
 
     const result = await Product.paginate(filter, options);
 
-    // Solo incluir parámetros que tienen valores
     const baseParams = { limit };
     if (sort) baseParams.sort = sort;
     if (query) baseParams.query = query;
@@ -87,7 +84,7 @@ viewsRouter.get("/", async (req, res) => {
       query: query || "",
     });
   } catch (error) {
-    res.status(500).render("error", {
+    res.status(500).send({
       message: "Error al cargar los productos",
       error: error.message,
     });
@@ -98,13 +95,11 @@ viewsRouter.get("/products/:pid", async (req, res) => {
   try {
     const product = await Product.findById(req.params.pid).lean();
     if (!product)
-      return res
-        .status(404)
-        .render("error", { message: "Producto no encontrado" });
+      return res.status(404).send({ message: "Producto no encontrado" });
     res.render("productDetail", { product });
   } catch (error) {
-    res.status(500).render("error", {
-      message: "Error al cargar el detalle del producto",
+    res.status(500).send({
+      message: "Error al cargar el producto",
       error: error.message,
     });
   }
@@ -117,9 +112,7 @@ viewsRouter.get("/carts/:cid", async (req, res) => {
       .lean();
 
     if (!cart)
-      return res
-        .status(404)
-        .render("error", { message: "Carrito no encontrado" });
+      return res.status(404).send({ message: "Carrito no encontrado" });
 
     const productsWithSubtotal = cart.products.map((item) => {
       const subtotal = item.product.price * item.quantity;
@@ -138,7 +131,7 @@ viewsRouter.get("/carts/:cid", async (req, res) => {
       hasProducts: cart.products.length > 0,
     });
   } catch (error) {
-    res.status(500).render("error", {
+    res.status(500).send({
       message: "Error al cargar el carrito",
       error: error.message,
     });

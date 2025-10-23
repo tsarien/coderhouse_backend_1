@@ -1,4 +1,3 @@
-// Crear o recuperar el carrito existente
 async function getOrCreateCart() {
   let cartId = localStorage.getItem("cartId");
 
@@ -21,7 +20,6 @@ async function getOrCreateCart() {
   return cartId;
 }
 
-// Agregar producto al carrito
 async function addToCart(productId) {
   const cartId = await getOrCreateCart();
   if (!cartId) return;
@@ -30,7 +28,7 @@ async function addToCart(productId) {
   const quantity = quantityInput ? parseInt(quantityInput.value) || 1 : 1;
 
   try {
-    const response = await fetch(`/api/carts/${cartId}/product/${productId}`, {
+    const response = await fetch(`/api/carts/${cartId}/products/${productId}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ quantity }),
@@ -40,7 +38,6 @@ async function addToCart(productId) {
       alert(`${quantity} producto(s) agregado(s) al carrito`);
       updateCartCount();
 
-      // Mostrar botón para ver carrito
       const viewCartBtn = document.getElementById("viewCartBtn");
       if (viewCartBtn) {
         viewCartBtn.href = `/carts/${cartId}`;
@@ -54,7 +51,6 @@ async function addToCart(productId) {
   }
 }
 
-// Actualizar contador del carrito
 async function updateCartCount() {
   const cartId = localStorage.getItem("cartId");
   if (!cartId) return;
@@ -73,7 +69,6 @@ async function updateCartCount() {
   }
 }
 
-// Mostrar botón “Ver carrito” si ya existe uno guardado
 document.addEventListener("DOMContentLoaded", () => {
   const cartId = localStorage.getItem("cartId");
   if (cartId) {
@@ -84,7 +79,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // 🔁 Enviar formulario automáticamente al cambiar filtros
   document.getElementById("limit").addEventListener("change", () => {
     document.getElementById("filtersForm").submit();
   });
@@ -92,7 +86,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("filtersForm").submit();
   });
 
-  // 🛒 Escuchar clicks en los botones de agregar al carrito
   document.querySelectorAll(".btn-add-cart").forEach((btn) => {
     btn.addEventListener("click", () => {
       const id = btn.getAttribute("data-id");

@@ -1,5 +1,3 @@
-// Navbar
-
 async function updateCartLink() {
   const cartId = localStorage.getItem("cartId");
   const cartLink = document.getElementById("cartLink");
@@ -25,10 +23,7 @@ async function updateCartLink() {
     cartCount.style.display = "none";
   }
 }
-// Actualizar al cargar la página
 document.addEventListener("DOMContentLoaded", updateCartLink);
-
-// Cart general
 
 async function updateQuantity(cartId, productId, currentQuantity, change) {
   const newQuantity = currentQuantity + change;

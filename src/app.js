@@ -14,11 +14,8 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT;
 
-// Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// Archivos estáticos
 app.use(express.static(path.join(__dirname, "public")));
 
 // Handlebars
@@ -29,18 +26,9 @@ app.set("views", path.join(__dirname, "src/views"));
 // Conexión a MongoDB
 connectMongoDB();
 
-// Endpoints
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartRouter);
 app.use("/", viewsRouter);
-
-// Manejo de errores 404
-app.use((req, res) => {
-  res.status(404).render("error", {
-    message: "Página no encontrada",
-    error: `La ruta ${req.url} no existe`,
-  });
-});
 
 app.listen(PORT, () => {
   console.log(`Servidor iniciado correctamente en http://localhost:${PORT}`);

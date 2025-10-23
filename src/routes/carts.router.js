@@ -24,7 +24,19 @@ const findProduct = async (pid, res) => {
   return product;
 };
 
-// Crear un nuevo carrito
+cartRouter.get("/", async (req, res) => {
+  try {
+    const carts = await Cart.find().populate("products.product");
+    res.json({ status: "success", payload: carts });
+  } catch (error) {
+    res.status(500).json({
+      status: "error",
+      message: "Error al obtener los carritos",
+      error: error.message,
+    });
+  }
+});
+
 cartRouter.post("/", async (_req, res) => {
   try {
     const cart = await Cart.create({});
@@ -37,7 +49,6 @@ cartRouter.post("/", async (_req, res) => {
   }
 });
 
-// Obtener un carrito por ID
 cartRouter.get("/:cid", async (req, res) => {
   try {
     const cart = await Cart.findById(req.params.cid).populate(
@@ -56,8 +67,7 @@ cartRouter.get("/:cid", async (req, res) => {
   }
 });
 
-// Agregar producto al carrito
-cartRouter.post("/:cid/product/:pid", async (req, res) => {
+cartRouter.post("/:cid/products/:pid", async (req, res) => {
   try {
     const { cid, pid } = req.params;
     const { quantity = 1 } = req.body;
@@ -89,7 +99,6 @@ cartRouter.post("/:cid/product/:pid", async (req, res) => {
   }
 });
 
-// Actualizar cantidad de un producto en el carrito
 cartRouter.put("/:cid/products/:pid", async (req, res) => {
   try {
     const { cid, pid } = req.params;
@@ -129,7 +138,6 @@ cartRouter.put("/:cid/products/:pid", async (req, res) => {
   }
 });
 
-// Eliminar un producto específico del carrito
 cartRouter.delete("/:cid/products/:pid", async (req, res) => {
   try {
     const { cid, pid } = req.params;
@@ -137,13 +145,11 @@ cartRouter.delete("/:cid/products/:pid", async (req, res) => {
     const cart = await findCart(cid, res);
     if (!cart) return;
 
-    // Filtrar el producto que se quiere eliminar
     const initialLength = cart.products.length;
     cart.products = cart.products.filter(
       (item) => item.product.toString() !== pid
     );
 
-    // Verificar si se eliminó algo
     if (cart.products.length === initialLength) {
       return res.status(404).json({
         status: "error",
@@ -166,7 +172,6 @@ cartRouter.delete("/:cid/products/:pid", async (req, res) => {
   }
 });
 
-// Vaciar todo el carrito
 cartRouter.delete("/:cid", async (req, res) => {
   try {
     const cart = await findCart(req.params.cid, res);
