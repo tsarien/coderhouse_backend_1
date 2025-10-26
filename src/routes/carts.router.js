@@ -37,7 +37,7 @@ cartRouter.get("/", async (req, res) => {
   }
 });
 
-cartRouter.post("/", async (_req, res) => {
+cartRouter.post("/", async (req, res) => {
   try {
     const cart = await Cart.create({});
     res.status(201).json({ status: "success", payload: cart });

@@ -18,6 +18,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
+// Corrección a la ruta del carrito
+app.use((req, res, next) => {
+  res.locals.cartId = req.session?.cartId || "68fd83d22a7782ac85a410e7";
+  next();
+});
+
 // Handlebars
 app.engine("handlebars", engine());
 app.set("view engine", "handlebars");

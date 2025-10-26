@@ -15,7 +15,11 @@
         <ul class="nav-menu">
           <li><a href="/" class="nav-link">Productos</a></li>
           <li>
-            <a href="#" class="nav-link cart-link" id="cartLink">
+            <a
+              href="/carts/{{cartId}}"
+              class="nav-link cart-link"
+              id="cartLink"
+            >
               🛒 Carrito
               <span class="cart-badge" id="cart-count">0</span>
             </a>
@@ -29,5 +33,6 @@
     </main>
 
     <script src="/js/cart.js"></script>
+    <script src="/js/product.js"></script>
   </body>
 </html>
