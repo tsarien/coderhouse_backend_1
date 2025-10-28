@@ -1,5 +1,3 @@
-const cartId = "68fd83d22a7782ac85a410e7";
-
 async function addToCart(productId) {
   const quantityInput = document.getElementById("quantity");
   const quantity = quantityInput ? parseInt(quantityInput.value) || 1 : 1;

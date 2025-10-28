@@ -1,5 +1,3 @@
-const cartId = "68fd83d22a7782ac85a410e7";
-
 async function updateCartLink() {
   const cartCount = document.getElementById("cart-count");
 

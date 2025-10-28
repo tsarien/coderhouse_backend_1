@@ -20,7 +20,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // Corrección a la ruta del carrito
 app.use((req, res, next) => {
-  res.locals.cartId = req.session?.cartId || "68fd83d22a7782ac85a410e7";
+  res.locals.cartId = req.session?.cartId || "690082ed4787653bbf9b8153";
   next();
 });
 
